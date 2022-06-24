@@ -4,26 +4,20 @@ if hookmetamethod then
 	local OldNewIndex
 	OldNewIndex = hookmetamethod(game, "__newindex", function(Self, Index, Value)
 		local Obj = LockedObj[Self]
-		if Obj and Obj.Property == Index and not Obj.Disabled then Value = Obj.Value end
+		if Obj and Obj.Property == Index and not FPSBooster.Disabled then Value = Obj.Value end
 		return OldNewIndex(Self, Index, Value)
 	end)
 end
 
 local function LockProperty(Obj, Property, Value)
-	if LockedObj[Obj] then
-		Obj[Property] = Value
-		return
-	end
 	LockedObj[Obj] = { Property = Property, Value = Value, OldValue = Obj[Property] }
-	Obj[Property] = Value
+	if not FPSBooster.Disabled then Obj[Property] = Value end
 end
 
 function FPSBooster:Boost()
 	if FPSBooster.Done then
-		for Obj, Data in next, LockedObj do
-			Data.Disabled = nil
-			LockProperty(Obj, Data.Property, Data.Value)
-		end
+		FPSBooster.Disabled = nil
+		for Obj, Data in next, LockedObj do Obj[Data.Property] = Data.Value end
 		if SetHiddenProperty then SetHiddenProperty(Terrain, "Decoration", false) end
 		return
 	end
@@ -73,10 +67,8 @@ function FPSBooster:Boost()
 end
 
 function FPSBooster:Disable()
-	for Obj, Data in next, LockedObj do
-		Data.Disabled = true
-		LockProperty(Obj, Data.Property, Data.OldValue)
-	end
+	FPSBooster.Disabled = true
+	for Obj, Data in next, LockedObj do Obj[Data.Property] = Data.OldValue end
 	if SetHiddenProperty then SetHiddenProperty(Terrain, "Decoration", true) end
 end
 
