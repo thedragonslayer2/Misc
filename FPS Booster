@@ -21,7 +21,7 @@ end
 function FPSBooster:Boost()
 	if FPSBooster.Done then
 		for Obj, Data in next, LockedObj do
-			Obj.Disabled = nil
+			Data.Disabled = nil
 			LockProperty(Obj, Data.Property, Data.Value)
 		end
 		if SetHiddenProperty then SetHiddenProperty(Terrain, "Decoration", false) end
@@ -74,7 +74,7 @@ end
 
 function FPSBooster:Disable()
 	for Obj, Data in next, LockedObj do
-		Obj.Disabled = true
+		Data.Disabled = true
 		LockProperty(Obj, Data.Property, Data.OldValue)
 	end
 	if SetHiddenProperty then SetHiddenProperty(Terrain, "Decoration", true) end
