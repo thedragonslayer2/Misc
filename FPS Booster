@@ -1,5 +1,5 @@
 repeat wait() until game:IsLoaded()
-local FPSBooster, Terrain, Lighting, LockedObj, SetHiddenProperty = {}, workspace:WaitForChild"Terrain", game:GetService"Lighting", {}, getgenv().sethiddenproperty
+local FPSBooster, Terrain, Lighting, LockedObj, DontChange, SetHiddenProperty = {}, workspace:WaitForChild"Terrain", game:GetService"Lighting", {}, {}, getgenv().sethiddenproperty
 if hookmetamethod then
 	local OldNewIndex
 	OldNewIndex = hookmetamethod(game, "__newindex", function(Self, Index, Value)
@@ -9,7 +9,10 @@ if hookmetamethod then
 	end)
 end
 
+function FPSBooster:DontChange(Obj, Property) DontChange[Obj] = Property end
+
 function FPSBooster:LockProperty(Obj, Property, Value, CantDisable)
+	if DontChange[Obj] == Property then return end
 	LockedObj[Obj] = {
 		Property = Property,
 		Value = Value,
