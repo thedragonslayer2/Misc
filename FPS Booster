@@ -13,11 +13,15 @@ function FPSBooster:DontChange(Obj, Property) DontChange[Obj] = Property end
 
 function FPSBooster:LockProperty(Obj, Property, Value, CantDisable)
 	if DontChange[Obj] == Property then return end
+	if LockedObj[Obj] then LockedObj[Obj].Changed:Disconnect() end
 	LockedObj[Obj] = {
 		Property = Property,
 		Value = Value,
 		OldValue = Obj[Property],
-		CantDisable = CantDisable
+		CantDisable = CantDisable,
+		Changed = Obj:GetPropertyChangedSignal(Property):Connect(function()
+			if Obj[Property] ~= Value then LockedObj[Obj].OldValue = Obj[Property] end
+		end)
 	}
 	if not FPSBooster.Disabled or CantDisable then Obj[Property] = Value end
 end
@@ -70,7 +74,6 @@ function FPSBooster:Boost()
 		for i, v in next, Lighting:GetChildren() do Check(v, true) end
 		FPSBooster:LockProperty(Lighting, "GlobalShadows", false)
 		FPSBooster:LockProperty(Lighting, "FogEnd", 9e9)
-		FPSBooster:LockProperty(Lighting, "Brightness", 1)
 	end
 end
 
