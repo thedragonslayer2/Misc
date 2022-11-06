@@ -1,10 +1,14 @@
 repeat wait() until game:IsLoaded()
-local FPSBooster, Terrain, Lighting, LockedObj, DontChange, SetHiddenProperty = {}, workspace:WaitForChild"Terrain", game:GetService"Lighting", {}, {}, getgenv().sethiddenproperty
+local FPSBooster, Terrain, Lighting, LockedObj, DontChange, SetHiddenProperty = { Disabled = true }, workspace:WaitForChild"Terrain", game:GetService"Lighting", {}, {}, getgenv().sethiddenproperty
 if hookmetamethod then
 	local OldNewIndex
 	OldNewIndex = hookmetamethod(game, "__newindex", function(Self, Index, Value)
 		local Obj = LockedObj[Self]
-		if Obj and Obj.Property == Index and (not FPSBooster.Disabled or Obj.CantDisable) then Value = Obj.Value end
+		if Obj and Obj.Property == Index and (not FPSBooster.Disabled or Obj.CantDisable) then
+			local NewValue = Obj.Value
+			if checkcaller and not checkcaller() then Obj.OldValue = Value end
+			Value = NewValue
+		end
 		return OldNewIndex(Self, Index, Value)
 	end)
 end
@@ -13,67 +17,56 @@ function FPSBooster:DontChange(Obj, Property) DontChange[Obj] = Property end
 
 function FPSBooster:LockProperty(Obj, Property, Value, CantDisable)
 	if DontChange[Obj] == Property then return end
-	if LockedObj[Obj] then LockedObj[Obj].Changed:Disconnect() end
 	LockedObj[Obj] = {
 		Property = Property,
 		Value = Value,
 		OldValue = Obj[Property],
-		CantDisable = CantDisable,
-		Changed = Obj:GetPropertyChangedSignal(Property):Connect(function()
-			if Obj[Property] ~= Value then LockedObj[Obj].OldValue = Obj[Property] end
-		end)
+		CantDisable = CantDisable
 	}
 	if not FPSBooster.Disabled or CantDisable then Obj[Property] = Value end
 end
 
 function FPSBooster:Boost()
+	FPSBooster.Disabled = nil
+	if SetHiddenProperty then SetHiddenProperty(Terrain, "Decoration", false) end
 	if FPSBooster.Done then
-		FPSBooster.Disabled = nil
 		for Obj, Data in next, LockedObj do Obj[Data.Property] = Data.Value end
-		if SetHiddenProperty then SetHiddenProperty(Terrain, "Decoration", false) end
 		return
-	end
-	FPSBooster.Done = true
-	-- Workspace
-	do
-		local function Check(v, NotAdded)
-			if not NotAdded then task.wait() end
-			if v:IsA"BasePart" then
-				FPSBooster:LockProperty(v, "Material", "Plastic")
-				FPSBooster:LockProperty(v, "Reflectance", 0)
-			elseif v:IsA"ParticleEmitter" or v:IsA"Trail" then
-				FPSBooster:LockProperty(v, "Lifetime", NumberRange.new(0))
-				FPSBooster:LockProperty(v, "Enabled", false)
-			elseif v:IsA"ForceField" then FPSBooster:LockProperty(v, "Visible", false)
-			elseif v:IsA"Explosion" then
-				FPSBooster:LockProperty(v, "Visible", false)
-				FPSBooster:LockProperty(v, "BlastRadius", 0)
-				FPSBooster:LockProperty(v, "BlastPressure", 0)
-			elseif v:IsA"Fire" or v:IsA"SpotLight" or v:IsA"PointLight" or v:IsA"Smoke" or v:IsA"Sparkles" or v:IsA"Beam" then FPSBooster:LockProperty(v, "Enabled", false) end
-		end
+	else
+		FPSBooster.Done = true
+		-- Workspace
+		do
+			local function Check(v, NotAdded)
+				if v:IsA"BasePart" then
+					FPSBooster:LockProperty(v, "Material", "Plastic")
+					FPSBooster:LockProperty(v, "Reflectance", 0)
+				elseif v:IsA"ForceField" or v:IsA"Explosion" then FPSBooster:LockProperty(v, "Visible", false)
+				elseif v:IsA"Fire" or v:IsA"ParticleEmitter" or v:IsA"Trail" or v:IsA"SpotLight" or v:IsA"PointLight" or v:IsA"Smoke" or v:IsA"Sparkles" or v:IsA"Beam" then FPSBooster:LockProperty(v, "Enabled", false) end
+			end
 
-		workspace.DescendantAdded:Connect(Check)
-		for i, v in next, workspace:GetDescendants() do Check(v, true) end
-	end
-	-- Terrain
-	do
-		FPSBooster:LockProperty(Terrain, "WaterWaveSize", 0)
-		FPSBooster:LockProperty(Terrain, "WaterWaveSpeed", 0)
-		FPSBooster:LockProperty(Terrain, "WaterReflectance", 0)
-		FPSBooster:LockProperty(Terrain, "WaterTransparency", 0)
-	end
-	-- Lighting
-	do
-		local function Check(v, Added)
-			if not Added then task.wait() end
-			if string.find(v.ClassName, "Effect") then FPSBooster:LockProperty(v, "Enabled", false)
-			elseif v:IsA"Atmosphere" then FPSBooster:LockProperty(v, "Density", 0) end
+			workspace.DescendantAdded:Connect(Check)
+			for i, v in next, workspace:GetDescendants() do Check(v) end
 		end
+		-- Terrain
+		do
+			FPSBooster:LockProperty(Terrain, "WaterWaveSize", 0)
+			FPSBooster:LockProperty(Terrain, "WaterWaveSpeed", 0)
+			FPSBooster:LockProperty(Terrain, "WaterReflectance", 0)
+			FPSBooster:LockProperty(Terrain, "WaterTransparency", 0)
+		end
+		-- Lighting
+		do
+			local function Check(v, Added)
+				if not Added then task.wait() end
+				if string.find(v.ClassName, "Effect") then FPSBooster:LockProperty(v, "Enabled", false)
+				elseif v:IsA"Atmosphere" then FPSBooster:LockProperty(v, "Density", 0) end
+			end
 
-		Lighting.ChildAdded:Connect(Check)
-		for i, v in next, Lighting:GetChildren() do Check(v, true) end
-		FPSBooster:LockProperty(Lighting, "GlobalShadows", false)
-		FPSBooster:LockProperty(Lighting, "FogEnd", 9e9)
+			Lighting.ChildAdded:Connect(Check)
+			for i, v in next, Lighting:GetChildren() do Check(v, true) end
+			FPSBooster:LockProperty(Lighting, "GlobalShadows", false)
+			FPSBooster:LockProperty(Lighting, "FogEnd", 9e9)
+		end
 	end
 end
 
