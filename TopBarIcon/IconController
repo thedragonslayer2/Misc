@@ -1,6 +1,6 @@
 -- LOCAL
-local function require(name)
-    return getgenv().ForeverHDTopbarIcon[name]
+local function require(table) 
+    return table
 end
 local starterGui = game:GetService("StarterGui")
 local guiService = game:GetService("GuiService")
