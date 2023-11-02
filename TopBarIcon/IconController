@@ -13,7 +13,7 @@ local players = game:GetService("Players")
 local VRService = game:GetService("VRService")
 local voiceChatService = game:GetService("VoiceChatService")
 local localizationService = game:GetService("LocalizationService")
-local iconModule = setmetatable({}, { __index = function(table, index) return tostring(index) end })
+local iconModule = script.Parent
 local TopbarPlusReference = GetModule(iconModule.TopbarPlusReference)
 local referenceObject = TopbarPlusReference.getObject()
 local leadPackage = referenceObject and referenceObject.Value
@@ -824,7 +824,7 @@ function IconController.setupHealthbar()
 	-- Create a fake healthbar icon to mimic the core health gui
 	task.defer(function()
 		runService.Heartbeat:Wait()
-		local Icon = loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/Icon")()
+		local Icon = getgenv().ForeverHDTopbarIcon.Icon
 
 		Icon.new()
 			:setProperty("internalIcon", true)
@@ -978,7 +978,7 @@ coroutine.wrap(function()
 	
 	-- Create PC 'Enter Controller Mode' Icon
 	runService.Heartbeat:Wait() -- This is required to prevent an infinite recursion
-	local Icon = loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/Icon")()
+	local Icon = getgenv().ForeverHDTopbarIcon.Icon
 	local controllerOptionIcon = Icon.new()
 		:setProperty("internalIcon", true)
 		:setName("_TopbarControllerOption")
