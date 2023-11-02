@@ -12,10 +12,12 @@ local guiService = game:GetService("GuiService")
 local localizationService = game:GetService("LocalizationService")
 local playersService = game:GetService("Players")
 local localPlayer = playersService.LocalPlayer
-local iconModule = setmetatable({}, { __index = function(table, index) return tostring(index) end })
+local iconModule = setmetatable({}, { __index = function(table, index) 
+    table[index] = rawget(table, index) or loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. tostring(index))()
+    return table[index]
+end })
 getgenv().ForeverHDTopbarIcon = iconModule
 local function require(name)
-    getgenv().ForeverHDTopbarIcon[name] = getgenv().ForeverHDTopbarIcon[name] or loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name)()
     return getgenv().ForeverHDTopbarIcon[name]
 end
 local TopbarPlusReference = require(iconModule.TopbarPlusReference)
