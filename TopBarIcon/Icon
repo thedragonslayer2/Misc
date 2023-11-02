@@ -2150,5 +2150,5 @@ end
 Icon.Destroy = Icon.destroy
 
 
-getgenv().ForeverHDTopbarIcon = Icon
+getgenv().ForeverHDTopbarIcon = iconModule
 return Icon
