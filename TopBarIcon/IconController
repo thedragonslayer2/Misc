@@ -823,6 +823,7 @@ function IconController.setupHealthbar()
 
 	-- Create a fake healthbar icon to mimic the core health gui
 	task.defer(function()
+        repeat task.wait() until getgenv().ForeverHDTopbarIcon.Icon
 		runService.Heartbeat:Wait()
 		local Icon = getgenv().ForeverHDTopbarIcon.Icon
 
@@ -975,7 +976,7 @@ end
 -- BEHAVIOUR
 --Controller support
 coroutine.wrap(function()
-	
+	repeat task.wait() until getgenv().ForeverHDTopbarIcon.Icon
 	-- Create PC 'Enter Controller Mode' Icon
 	runService.Heartbeat:Wait() -- This is required to prevent an infinite recursion
 	local Icon = getgenv().ForeverHDTopbarIcon.Icon
