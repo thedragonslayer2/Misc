@@ -1,9 +1,5 @@
 --// using https://www.roblox.com/library/6311707237/TopbarPlus?nl=true
--- 
-local function require(name)
-    getgenv().ForeverHDTopbarIcon[name] = getgenv().ForeverHDTopbarIcon[name] or loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name)()
-    return getgenv().ForeverHDTopbarIcon[name]
-end
+-- LOCAL
 local LocalizationService = game:GetService("LocalizationService")
 local tweenService = game:GetService("TweenService")
 local debris = game:GetService("Debris")
@@ -17,6 +13,11 @@ local localizationService = game:GetService("LocalizationService")
 local playersService = game:GetService("Players")
 local localPlayer = playersService.LocalPlayer
 local iconModule = setmetatable({}, { __index = function(table, index) return tostring(index) end })
+getgenv().ForeverHDTopbarIcon = iconModule
+local function require(name)
+    getgenv().ForeverHDTopbarIcon[name] = getgenv().ForeverHDTopbarIcon[name] or loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name)()
+    return getgenv().ForeverHDTopbarIcon[name]
+end
 local TopbarPlusReference = require(iconModule.TopbarPlusReference)
 local referenceObject = TopbarPlusReference.getObject()
 local leadPackage = referenceObject and referenceObject.Value
@@ -2150,5 +2151,4 @@ end
 Icon.Destroy = Icon.destroy
 
 
-getgenv().ForeverHDTopbarIcon = iconModule
 return Icon
