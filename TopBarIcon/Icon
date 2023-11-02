@@ -1,7 +1,8 @@
 --// using https://www.roblox.com/library/6311707237/TopbarPlus?nl=true
--- LOCAL
-local require = function (name)
-    return loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name)()
+-- 
+local function require(name)
+    getgenv().ForeverHDTopbarIcon[name] = getgenv().ForeverHDTopbarIcon[name] or loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name)()
+    return getgenv().ForeverHDTopbarIcon[name]
 end
 local LocalizationService = game:GetService("LocalizationService")
 local tweenService = game:GetService("TweenService")
