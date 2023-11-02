@@ -29,7 +29,6 @@ if not referenceObject then
 end
 local Icon = {}
 Icon.__index = Icon
-getgenv().ForeverHDTopbarIcon.Icon = Icon
 local IconController = GetModule(iconModule.IconController)
 local Signal = GetModule(iconModule.Signal)
 local Maid = GetModule(iconModule.Maid)
@@ -2250,4 +2249,5 @@ function Icon:destroy()
 	self._maid:clean()
 end
 Icon.Destroy = Icon.destroy
+getgenv().ForeverHDTopbarIcon.Icon = Icon
 return Icon
