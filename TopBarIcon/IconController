@@ -13,7 +13,7 @@ local players = game:GetService("Players")
 local VRService = game:GetService("VRService")
 local voiceChatService = game:GetService("VoiceChatService")
 local localizationService = game:GetService("LocalizationService")
-local iconModule = script.Parent
+local iconModule = setmetatable({}, { __index = function(table, index) return tostring(index) end })
 local TopbarPlusReference = GetModule(iconModule.TopbarPlusReference)
 local referenceObject = TopbarPlusReference.getObject()
 local leadPackage = referenceObject and referenceObject.Value
