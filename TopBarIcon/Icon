@@ -15,8 +15,7 @@ local localPlayer = playersService.LocalPlayer
 local iconModule = setmetatable({}, { __index = function(table, index) return tostring(index) end })
 getgenv().ForeverHDTopbarIcon = {}
 local function require(name)
-    print("https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name)
-    getgenv().ForeverHDTopbarIcon[name] = getgenv().ForeverHDTopbarIcon[name] or loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name)()
+    getgenv().ForeverHDTopbarIcon[name] = getgenv().ForeverHDTopbarIcon[name] or loadstring(game:HttpGet("https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name))()
     return getgenv().ForeverHDTopbarIcon[name]
 end
 local TopbarPlusReference = require(iconModule.TopbarPlusReference)
