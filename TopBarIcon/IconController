@@ -1,6 +1,5 @@
 -- LOCAL
 local function require(name)
-    getgenv().ForeverHDTopbarIcon[name] = getgenv().ForeverHDTopbarIcon[name] or loadstring(game:HttpGet("https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name))()
     return getgenv().ForeverHDTopbarIcon[name]
 end
 local starterGui = game:GetService("StarterGui")
