@@ -1,5 +1,5 @@
 -- LOCAL
-local function require(name)
+local function GetModule(name)
     getgenv().ForeverHDTopbarIcon[name] = getgenv().ForeverHDTopbarIcon[name] or loadstring(game:HttpGet("https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name))()
     return getgenv().ForeverHDTopbarIcon[name]
 end
@@ -14,18 +14,18 @@ local VRService = game:GetService("VRService")
 local voiceChatService = game:GetService("VoiceChatService")
 local localizationService = game:GetService("LocalizationService")
 local iconModule = setmetatable({}, { __index = function(table, index) return tostring(index) end })
-local TopbarPlusReference = require(iconModule.TopbarPlusReference)
+local TopbarPlusReference = GetModule(iconModule.TopbarPlusReference)
 local referenceObject = TopbarPlusReference.getObject()
 local leadPackage = referenceObject and referenceObject.Value
 if leadPackage and leadPackage.IconController ~= script then
-	return require(leadPackage.IconController)
+	return GetModule(leadPackage.IconController)
 end
 if not referenceObject then
     TopbarPlusReference.addToReplicatedStorage()
 end
 local IconController = {}
-local Signal = require(iconModule.Signal)
-local TopbarPlusGui = require(iconModule.TopbarPlusGui)
+local Signal = GetModule(iconModule.Signal)
+local TopbarPlusGui = GetModule(iconModule.TopbarPlusGui)
 local topbarIcons = {}
 local forceTopbarDisabled = false
 local menuOpen
@@ -824,7 +824,7 @@ function IconController.setupHealthbar()
 	-- Create a fake healthbar icon to mimic the core health gui
 	task.defer(function()
 		runService.Heartbeat:Wait()
-		local Icon = require(iconModule)
+		local Icon = loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/Icon")()
 
 		Icon.new()
 			:setProperty("internalIcon", true)
@@ -978,7 +978,7 @@ coroutine.wrap(function()
 	
 	-- Create PC 'Enter Controller Mode' Icon
 	runService.Heartbeat:Wait() -- This is required to prevent an infinite recursion
-	local Icon = require(iconModule)
+	local Icon = loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/Icon")()
 	local controllerOptionIcon = Icon.new()
 		:setProperty("internalIcon", true)
 		:setName("_TopbarControllerOption")
@@ -1105,7 +1105,7 @@ coroutine.wrap(function()
 				ownerId = ownerInfo.Id
 			end
 		end
-		local version = require(iconModule.VERSION)
+		local version = GetModule(iconModule.VERSION)
 		if localPlayer.UserId ~= ownerId then
 			local marketplaceService = game:GetService("MarketplaceService")
 			local success, placeInfo = pcall(function() return marketplaceService:GetProductInfo(game.PlaceId) end)
