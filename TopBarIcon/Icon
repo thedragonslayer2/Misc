@@ -1,5 +1,8 @@
 --// using https://www.roblox.com/library/6311707237/TopbarPlus?nl=true
 -- LOCAL
+local require = function (name)
+    return loadstring(game:HttpGet"https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name)()
+end
 local LocalizationService = game:GetService("LocalizationService")
 local tweenService = game:GetService("TweenService")
 local debris = game:GetService("Debris")
@@ -12,7 +15,7 @@ local guiService = game:GetService("GuiService")
 local localizationService = game:GetService("LocalizationService")
 local playersService = game:GetService("Players")
 local localPlayer = playersService.LocalPlayer
-local iconModule = script
+local iconModule = setmetatable({}, { __index = function(table, index) return tostring(index) end })
 local TopbarPlusReference = require(iconModule.TopbarPlusReference)
 local referenceObject = TopbarPlusReference.getObject()
 local leadPackage = referenceObject and referenceObject.Value
@@ -35,8 +38,6 @@ local iconTemplate = topbarContainer["IconContainer"]
 local DEFAULT_THEME = Themes.Default
 local THUMB_OFFSET = 55
 local DEFAULT_FORCED_GROUP_VALUES = {}
-
-
 
 -- CONSTRUCTORS
 function Icon.new()
