@@ -14,26 +14,26 @@ local playersService = game:GetService("Players")
 local localPlayer = playersService.LocalPlayer
 local iconModule = setmetatable({}, { __index = function(table, index) return tostring(index) end })
 getgenv().ForeverHDTopbarIcon = {}
-local function require(name)
+local function GetModule(name)
     getgenv().ForeverHDTopbarIcon[name] = getgenv().ForeverHDTopbarIcon[name] or loadstring(game:HttpGet("https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name))()
     return getgenv().ForeverHDTopbarIcon[name]
 end
-local TopbarPlusReference = require(iconModule.TopbarPlusReference)
+local TopbarPlusReference = GetModule(iconModule.TopbarPlusReference)
 local referenceObject = TopbarPlusReference.getObject()
 local leadPackage = referenceObject and referenceObject.Value
 if leadPackage and leadPackage ~= iconModule then
-	return require(leadPackage)
+	return GetModule(leadPackage)
 end
 if not referenceObject then
     TopbarPlusReference.addToReplicatedStorage()
 end
 local Icon = {}
 Icon.__index = Icon
-local IconController = require(iconModule.IconController)
-local Signal = require(iconModule.Signal)
-local Maid = require(iconModule.Maid)
-local TopbarPlusGui = require(iconModule.TopbarPlusGui)
-local Themes = require(iconModule.Themes)
+local IconController = GetModule(iconModule.IconController)
+local Signal = GetModule(iconModule.Signal)
+local Maid = GetModule(iconModule.Maid)
+local TopbarPlusGui = GetModule(iconModule.TopbarPlusGui)
+local Themes = GetModule(iconModule.Themes)
 local activeItems = TopbarPlusGui.ActiveItems
 local topbarContainer = TopbarPlusGui.TopbarContainer
 local iconTemplate = topbarContainer["IconContainer"]
@@ -2149,6 +2149,4 @@ function Icon:destroy()
 	self._maid:clean()
 end
 Icon.Destroy = Icon.destroy
-
-
 return Icon
