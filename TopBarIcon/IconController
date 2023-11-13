@@ -1066,7 +1066,9 @@ coroutine.wrap(function()
 
 
 
-	-- This checks if voice chat is enabled
+	--[[Stuff
+        
+    -- This checks if voice chat is enabled
 	task.defer(function()
 		local success, enabledForUser
 		while true do
@@ -1122,7 +1124,7 @@ coroutine.wrap(function()
 				print(("\n\n\n⚽ %s uses TopbarPlus %s\n🍍 TopbarPlus was developed by ForeverHD and the Nanoblox Team\n🚀 You can learn more and take a free copy by searching for 'TopbarPlus' on the DevForum\n\n"):format(gameName, version))
 			end
 		end
-	end
+	end]]
 
 end)()
 
