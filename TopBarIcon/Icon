@@ -1,5 +1,8 @@
 --// using https://www.roblox.com/library/6311707237/TopbarPlus?nl=true
 -- LOCAL
+if getgenv().ForeverHDTopbarIcon.Icon then
+    return getgenv().ForeverHDTopbarIcon.Icon
+end
 local LocalizationService = game:GetService("LocalizationService")
 local tweenService = game:GetService("TweenService")
 local debris = game:GetService("Debris")
