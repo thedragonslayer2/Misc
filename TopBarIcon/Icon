@@ -22,7 +22,7 @@ local TopbarPlusReference = GetModule(iconModule.TopbarPlusReference)
 local referenceObject = TopbarPlusReference.getObject()
 local leadPackage = referenceObject and referenceObject.Value
 if leadPackage and leadPackage ~= iconModule then
-	return GetModule(leadPackage)
+	return require(leadPackage)
 end
 if not referenceObject then
     TopbarPlusReference.addToReplicatedStorage()
