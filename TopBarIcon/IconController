@@ -14,11 +14,16 @@ local VRService = game:GetService("VRService")
 local voiceChatService = game:GetService("VoiceChatService")
 local localizationService = game:GetService("LocalizationService")
 local iconModule = setmetatable({}, { __index = function(table, index) return tostring(index) end })
-local TopbarPlusReference = GetModule(iconModule.TopbarPlusReference)
+local TopbarPlusReference = {
+	addToReplicatedStorage = function() end,
+	getObject = function()
+		return game:GetService"ReplicatedStorage":FindFirstChild"TopbarPlusReference"
+	end
+}
 local referenceObject = TopbarPlusReference.getObject()
 local leadPackage = referenceObject and referenceObject.Value
 if leadPackage and leadPackage.IconController ~= script then
-	return GetModule(leadPackage.IconController)
+	return require(leadPackage.IconController)
 end
 if not referenceObject then
     TopbarPlusReference.addToReplicatedStorage()
