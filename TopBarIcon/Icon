@@ -18,7 +18,13 @@ local function GetModule(name)
     getgenv().ForeverHDTopbarIcon[name] = getgenv().ForeverHDTopbarIcon[name] or loadstring(game:HttpGet("https://raw.githubusercontent.com/thedragonslayer2/Misc/main/TopBarIcon/" .. name))()
     return getgenv().ForeverHDTopbarIcon[name]
 end
-local TopbarPlusReference = GetModule(iconModule.TopbarPlusReference)
+local TopbarPlusReference = {
+	addToReplicatedStorage = function() end,
+	getObject = function()
+		return game:GetService"ReplicatedStorage":FindFirstChild"TopbarPlusReference"
+	end
+}
+
 local referenceObject = TopbarPlusReference.getObject()
 local leadPackage = referenceObject and referenceObject.Value
 if leadPackage and leadPackage ~= iconModule then
