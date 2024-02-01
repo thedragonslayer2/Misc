@@ -348,7 +348,7 @@ indicator.Active = false
 -- PARENT
 local localPlayer = game:GetService("Players").LocalPlayer
 local playerGui = localPlayer.PlayerGui
-topbarPlusGui.Parent = playerGui
+topbarPlusGui.Parent = (GetGUIParent and GetGUIParent()) or playerGui
 
 
 
