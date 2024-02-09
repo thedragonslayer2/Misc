@@ -702,7 +702,7 @@ Icon.new = function ()
 end
 
 -- This is the same as Icon.new(), except it adds additional behaviour for certain specified names designed to mimic core icons, such as 'Chat'
-function Icon.mimic(coreIconToMimic)
+local function mimic(coreIconToMimic)
 	local iconName = coreIconToMimic.."Mimic"
 	local icon = IconController.getIcon(iconName)
 	if icon then
@@ -809,7 +809,12 @@ function Icon.mimic(coreIconToMimic)
 	end
 	return icon
 end
-
+Icon.mimic = function ()
+	local ReturnTo
+	task.spawn(function() ReturnTo = mimic() end)
+	repeat task.wait() until ReturnTo
+	return ReturnTo
+end
 
 
 -- CORE UTILITY METHODS
