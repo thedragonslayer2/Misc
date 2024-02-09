@@ -694,7 +694,13 @@ local function new()
 	
 	return self
 end
-Icon.new = coroutine.wrap(new)
+Icon.new = function ()
+	local ReturnTo
+	task.spawn(function() ReturnTo = new() end)
+	repeat task.wait() until ReturnTo
+	return ReturnTo
+end
+
 -- This is the same as Icon.new(), except it adds additional behaviour for certain specified names designed to mimic core icons, such as 'Chat'
 function Icon.mimic(coreIconToMimic)
 	local iconName = coreIconToMimic.."Mimic"
