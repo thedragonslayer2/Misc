@@ -1157,10 +1157,10 @@ coroutine.wrap(function()
 	end
 	IconController.setTopbarEnabled(makeVisible, false)
 end)()
-
+local EnableDisapear
 -- Mimic roblox menu when opened and closed
 guiService.MenuClosed:Connect(function()
-	if VRService.VREnabled then
+	if not EnableDisapear or VRService.VREnabled then
 		return
 	end
 	menuOpen = false
@@ -1169,7 +1169,7 @@ guiService.MenuClosed:Connect(function()
 	end
 end)
 guiService.MenuOpened:Connect(function()
-	if VRService.VREnabled then
+	if not EnableDisapear or VRService.VREnabled then
 		return
 	end
 	menuOpen = true
