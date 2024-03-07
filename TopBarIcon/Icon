@@ -31,7 +31,8 @@ local TopbarPlusReference = {
 local referenceObject = TopbarPlusReference.getObject()
 local leadPackage = referenceObject and referenceObject.Value
 if leadPackage and leadPackage ~= iconModule then
-	return require(leadPackage)
+    getgenv().ForeverHDTopbarIcon.Icon = require(leadPackage)
+	return getgenv().ForeverHDTopbarIcon.Icon 
 end
 if not referenceObject then
     TopbarPlusReference.addToReplicatedStorage()
