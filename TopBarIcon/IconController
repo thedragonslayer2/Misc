@@ -1128,10 +1128,11 @@ coroutine.wrap(function()
 
 end)()
 
+local EnableDisapear
 -- Mimic the enabling of the topbar when StarterGui:SetCore("TopbarEnabled", state) is called
 coroutine.wrap(function()
 	local chatScript = players.LocalPlayer.PlayerScripts:WaitForChild("ChatScript", 4) or game:GetService("Chat"):WaitForChild("ChatScript", 4)
-	if not chatScript then return end
+	if not chatScript or not EnableDisapear then return end
 	local chatMain = chatScript:FindFirstChild("ChatMain")
 	if not chatMain then return end
 	local ChatMain = require(chatMain)
@@ -1157,7 +1158,6 @@ coroutine.wrap(function()
 	end
 	IconController.setTopbarEnabled(makeVisible, false)
 end)()
-local EnableDisapear
 -- Mimic roblox menu when opened and closed
 guiService.MenuClosed:Connect(function()
 	if not EnableDisapear or VRService.VREnabled then
@@ -1169,7 +1169,7 @@ guiService.MenuClosed:Connect(function()
 	end
 end)
 guiService.MenuOpened:Connect(function()
-	if not EnableDisapear or VRService.VREnabled then
+	if VRService.VREnabled then
 		return
 	end
 	menuOpen = true
