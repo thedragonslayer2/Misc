@@ -23,9 +23,7 @@ local function GetModule(name)
 end
 local TopbarPlusReference = {
 	addToReplicatedStorage = function() end,
-	getObject = function()
-		return game:GetService"ReplicatedStorage":FindFirstChild"TopbarPlusReference"
-	end
+	getObject = function() end
 }
 
 local referenceObject = TopbarPlusReference.getObject()
