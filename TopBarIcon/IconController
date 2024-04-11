@@ -16,9 +16,7 @@ local localizationService = game:GetService("LocalizationService")
 local iconModule = setmetatable({}, { __index = function(table, index) return tostring(index) end })
 local TopbarPlusReference = {
 	addToReplicatedStorage = function() end,
-	getObject = function()
-		return game:GetService"ReplicatedStorage":FindFirstChild"TopbarPlusReference"
-	end
+	getObject = function() end
 }
 local referenceObject = TopbarPlusReference.getObject()
 local leadPackage = referenceObject and referenceObject.Value
